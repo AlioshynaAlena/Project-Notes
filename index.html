@@ -4,11 +4,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <title>Notes</title>
 </head>
 
-<body>
 
+<body>
+    <header class="header">
+        <!-- Ваш код -->
+        <img class="notes" src="img/note.svg" alt="">
+        <div class="icon">
+            <img class="icon-notes" src="img/notes.svg" alt="">
+            <p class="total">Всего заметок:</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="wrapper">
+
+            <div class="form">
+                <form class="note-form" name="notes">
+                    <!-- Ваш код -->
+                    <label class="label" for="nameNote">Название заметки</label>
+                    <input class="input-one" type="text" name="Note" id="nameNote" placeholder="Напишите название новой заметки...">
+                    <label class="label" for="descriptionNote">Описание новой заметки</label>
+                    <input class="input-two" type="text" name="Note" id="descriptionNote" placeholder="Напишите описание новой заметки...">
+                </form>
+            </div>
+
+            <div class="colors-notes">
+
+                <div class="color">
+                    <p class="title">Выберите цвет заметки</p>
+                    <ul class="color-options">
+                        <li class="color-option selected">
+                            <div class="circle yellow"></div>
+                        </li>
+                        <li class="color-option">
+                            <div class="circle green"></div>
+                        </li>
+                        <li class="color-option">
+                            <div class="circle blue"></div>
+                        </li>
+                        <li class="color-option">
+                            <div class="circle red"></div>
+                        </li>
+                        <li class="color-option">
+                            <div class="circle pink"></div>
+                        </li>
+                    </ul>
+                </div>
+
+                <button class="btn">
+                    <img class="icon-plus" src="img/plus.svg" alt="plus">
+                    Добавить заметку</button>
+            </div>
+        </div>
+
+
+        <div class="filter-box">
+            <!-- Ваш код -->
+            <div class="box">
+                <img class="icon-box" src="img/checkbox-inactive.svg" alt="">
+                <p class="favorite">Показать только избранные заметки</p>
+            </div>
+        </div>
+
+
+        <ul class="notes-list">
+            <!-- Сюда будут рендерится заметки из JavaScript -->
+        </ul>
+
+        <div class="messages-box">
+            <!-- Сюда будут рендерится информационные сообщения из JavaScript -->
+        </div>
+    </main>
+
+
+    <script src="script.js"></script>
 </body>
 
 </html>
