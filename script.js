@@ -1,28 +1,191 @@
-const MOCK_NOTES = [{
-            id: 1,
-            title: 'Работа с формами',
-            content: 'К определённым полям формы можно обратиться через form.elements по значению, указанному в атрибуте name',
-            color: colors.YELLOW,
-            isFavorite: false,
-        },
-        // ...
-    ]
     //словарь цветов
-const colors = {
-    GREEN: 'green',
-    BLUE: 'blue',
-    RED: 'red',
-    YELLOW: 'yellow',
-    PURPLE: 'purple',
-}
-
-const model = {
-    notes: MOCK_NOTES,
-}
-const view = {
-    renderNotes(notes) {
-        // your code here
-        // находим контейнер для заметок и рендерим заметки в него (если заметок нет, отображаем соответствующий текст)
-        // также здесь можно будет повесить обработчики кликов на кнопки удаления и избранного
+    const colors = {
+        GREEN: 'green',
+        BLUE: 'blue',
+        RED: 'red',
+        YELLOW: 'yellow',
+        PURPLE: 'pink',
     }
-}
+
+    const MOCK_NOTES = [{
+        id: 1,
+        title: 'Работа с формами',
+        description: 'К определённым полям формы можно обратиться через form.elements по значению, указанному в атрибуте name',
+        color: colors.YELLOW,
+        isFavorite: false,
+    }, ]
+
+    const model = {
+        notes: [],
+        showOnlyFavorites: false,
+        addNote(title, description, color) {
+            const note = {
+                // 1. создадим новую заметку
+                id: new Date().getTime(),
+                title: title,
+                description: description,
+                color: color || colors.YELLOW,
+                isFavorite: false,
+            };
+            // 2. добавим заметку в начало списка
+            this.notes.unshift(note)
+                // 3. обновим view
+            view.renderNotes(this.notes)
+            view.renderNotesCount()
+        },
+
+        addFavorite(noteId) {
+            const note = this.notes.find(note => note.id === noteId)
+            if (note) {
+                note.isFavorite = !note.isFavorite
+            }
+            view.renderNotes(this.notes)
+        },
+        deleteNote(noteId) {
+            this.notes = this.notes.filter(note => note.id !== noteId) // вернет все элементы, которые не соответствуют условию
+            view.renderNotes(this.notes)
+            view.renderNotesCount()
+        },
+
+
+
+        updateNotesView() {
+            // 1. рендерит список заметок (вызывает метод view.renderNotes)
+            // 2. рендерит количество заметок (вызывает метод view.renderNotesCount)
+        },
+    }
+
+
+    const view = {
+        init() {
+            this.renderNotes(model.notes)
+
+
+            //элементы формы
+            const inputOne = document.querySelector('.input-one')
+            const inputTwo = document.querySelector('.input-two')
+            const btn = document.querySelector('.btn')
+
+
+            // Добавляем обработчик события на кнопку
+            btn.addEventListener('click', function(event) {
+                event.preventDefault()
+                const title = inputOne.value.trim()
+                const description = inputTwo.value.trim()
+
+                const activeColor = document.querySelector('.circle.is_active');
+                const color = activeColor ? activeColor.id : colors.YELLOW;
+
+                if (title && description && title.length < 50) {
+                    controller.addNote(title, description, color);
+                    inputOne.value = '';
+                    inputTwo.value = '';
+                }
+
+            })
+
+            //color note
+            const colorsCircle = document.querySelectorAll('.circle')
+            colorsCircle.forEach(circle => {
+                circle.addEventListener('click', function() {
+                    // Сначала удаляем класс у всех элементов
+                    colorsCircle.forEach(c => c.classList.remove('is_active'));
+
+                    // Затем добавляем только текущему
+                    this.classList.add('is_active');
+                });
+            });
+
+            //обработчики кликов на кнопки удаления и избранного
+
+            //favorite
+            const notesList = document.querySelector(".notes-list")
+            notesList.addEventListener('click', function(event) {
+                if (event.target.classList.contains('heart')) {
+                    const noteElement = event.target.closest('.note');
+                    const noteId = +noteElement.dataset.id
+                    controller.addFavorite(noteId)
+                }
+            })
+
+            //delete
+            notesList.addEventListener('click', function(event) {
+                if (event.target.classList.contains('trash')) {
+                    const noteElement = event.target.closest('.note');
+                    const noteId = +noteElement.dataset.id
+                    controller.deleteNote(noteId)
+                }
+            })
+
+            //checkbox
+            const filterBox = document.querySelector('.filter-box')
+
+
+
+        },
+        renderNotesCount() {
+            const quantity = document.querySelector('.count')
+            quantity.textContent = model.notes.length
+        },
+        renderNotes(notes) {
+            // находим контейнер для заметок и рендерим заметки в него
+            const notesList = document.querySelector(".notes-list")
+            let notesHTML = ''
+            for (let i = 0; i < notes.length; i++) {
+                const note = notes[i]
+
+                notesHTML += `
+                 <div class="note" data-id="${note.id}">
+       <div class="note-title ${note.color}">${note.title}
+           <img class="heart" src="img/${note.isFavorite ? 'heart-active' : 'heart-inactive'}.svg" alt="">
+           <img class="trash" src="img/trash.svg" alt="">
+       </div>
+       <div class="card_descr">${note.description}</div>
+   </div>`
+            }
+            notesList.innerHTML = notesHTML
+
+            //рендерим заметки в контейнер (если заметок нет, отображаем соответствующий текст)
+            if (notes.length) {
+                const text = document.querySelector('.content')
+                text.style.display = 'none'
+
+                const checkbox = document.querySelector('.filter-box')
+                checkbox.style.display = 'flex'
+            } else {
+                const text = document.querySelector('.content')
+                text.style.display = 'block'
+
+                const checkbox = document.querySelector('.filter-box')
+                checkbox.style.display = 'none'
+            }
+
+
+        },
+
+
+
+
+    }
+
+
+    const controller = {
+        addNote(title, description, color) {
+            model.addNote(title, description, color)
+
+        },
+        addFavorite(noteId) {
+            model.addFavorite(noteId)
+        },
+        deleteNote(noteId) {
+            model.deleteNote(noteId)
+        },
+
+
+
+
+
+    }
+
+
+    view.init()

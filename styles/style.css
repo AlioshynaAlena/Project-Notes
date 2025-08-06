@@ -176,23 +176,58 @@ label {
     margin-right: 8px;
 }
 
-.box {
+.notes-list {
+    max-width: 1280px;
     display: flex;
-    justify-content: flex-end;
-    margin-top: 24px;
-}
-
-.favorite {
-    margin-left: 8px;
-    font-size: 0.75rem;
-}
-
-.icon-box {
-    width: 16px;
-    height: 16px;
+    flex-wrap: wrap;
+    margin: 24px 64px 0;
+    gap: 25px;
 }
 
 .filter-box {
     max-width: 1280px;
     margin: 24px 64px 0;
+    justify-content: flex-end;
+}
+
+
+/* тут исправить */
+
+.noteId {
+    max-width: 1280px;
+    margin: 24px 64px 0;
+}
+
+.note-title {
+    width: 368px;
+    border-radius: 10px 10px 0 0;
+    font-weight: 500;
+    color: #292515;
+    display: flex;
+    gap: 25px;
+}
+
+.note-description {
+    width: 368px;
+    height: 100px;
+    background-color: #FFFFFF;
+    border-radius: 0 0 10px 10px;
+    font-size: 0.875rem;
+    color: #000000;
+    line-height: 24px;
+}
+
+.content {
+    width: 1280px;
+    text-align: center;
+    margin-top: 128px;
+    font-weight: 500;
+}
+
+.card_descr {
+    width: 368px;
+    border-radius: 10px 10px 0 0;
+    font-weight: 500;
+    color: #292515;
+    display: flex;
 }

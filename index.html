@@ -15,13 +15,14 @@
         <img class="notes" src="img/note.svg" alt="">
         <div class="icon">
             <img class="icon-notes" src="img/notes.svg" alt="">
-            <p class="total">Всего заметок:</p>
+            <p class="total">Всего заметок: <span class="count">0</span></p>
         </div>
     </header>
 
     <main>
-        <div class="wrapper">
 
+
+        <div class="wrapper">
             <div class="form">
                 <form class="note-form" name="notes">
                     <!-- Ваш код -->
@@ -33,51 +34,57 @@
             </div>
 
             <div class="colors-notes">
-
                 <div class="color">
                     <p class="title">Выберите цвет заметки</p>
                     <ul class="color-options">
-                        <li class="color-option selected">
-                            <div class="circle yellow"></div>
+                        <li class="color-option">
+                            <div class="circle yellow" id="yellow"></div>
                         </li>
                         <li class="color-option">
-                            <div class="circle green"></div>
+                            <div class="circle green" id="green"></div>
                         </li>
                         <li class="color-option">
-                            <div class="circle blue"></div>
+                            <div class="circle blue" id="blue"></div>
                         </li>
                         <li class="color-option">
-                            <div class="circle red"></div>
+                            <div class="circle red" id="red"></div>
                         </li>
                         <li class="color-option">
-                            <div class="circle pink"></div>
+                            <div class="circle pink" id="pink"></div>
                         </li>
                     </ul>
                 </div>
 
-                <button class="btn">
+                <button class="btn" type="submit">
                     <img class="icon-plus" src="img/plus.svg" alt="plus">
                     Добавить заметку</button>
             </div>
         </div>
 
-
-        <div class="filter-box">
-            <!-- Ваш код -->
-            <div class="box">
-                <img class="icon-box" src="img/checkbox-inactive.svg" alt="">
-                <p class="favorite">Показать только избранные заметки</p>
+        <div class="filter-box" id="filter-box">
+            <div class="box" id="box">
+                <input type="checkbox" class="check" id="check">Показать только избранные
             </div>
         </div>
 
+        <div class="content">
+            <p class="content-text">У Вас нет еще ни одной заметки</p>
+            <p class="content-text">Заполните поля выше и создайте свою первую заметку!</p>
+        </div>
 
-        <ul class="notes-list">
+
+
+
+        <div class="notes-list">
             <!-- Сюда будут рендерится заметки из JavaScript -->
-        </ul>
+        </div>
+
 
         <div class="messages-box">
             <!-- Сюда будут рендерится информационные сообщения из JavaScript -->
         </div>
+
+
     </main>
 
 
@@ -85,3 +92,19 @@
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+<!-- notesHTML += `
+                 <div class="noteId" id="${note.id}">
+                   <div class="note-title ${note.color}">${note.title}
+                   <img class="heart" src="img/${note.isFavorite ? 'heart-active' : 'heart-inactive'}.svg" alt="">
+                   <img class="trash" src="img/trash.svg" alt="">
+                   </div>
+                   <div class="card_descr">${note.description}</div>
+                   </div>` -->
