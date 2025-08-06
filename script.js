@@ -32,6 +32,7 @@
                 // 3. обновим view
             view.renderNotes(this.notes)
             view.renderNotesCount()
+            view.showMessage("Заметка добавлена", 'success')
         },
 
         addFavorite(noteId) {
@@ -43,22 +44,28 @@
         },
         deleteNote(noteId) {
             this.notes = this.notes.filter(note => note.id !== noteId) // вернет все элементы, которые не соответствуют условию
+            view.showMessage("Заметка удалена", 'error');
             view.renderNotes(this.notes)
             view.renderNotesCount()
         },
-
-
-
+        showFavorites() {
+            this.showOnlyFavorites = !this.showOnlyFavorites
+            this.updateNotesView()
+        },
         updateNotesView() {
             // 1. рендерит список заметок (вызывает метод view.renderNotes)
             // 2. рендерит количество заметок (вызывает метод view.renderNotesCount)
+            const notesToShow = this.showOnlyFavorites ? this.notes.filter(note => note.isFavorite) : this.notes; //filter создает новый массив, где true
+            view.renderNotes(notesToShow);
+            view.renderNotesCount()
         },
     }
-
 
     const view = {
         init() {
             this.renderNotes(model.notes)
+                // Инициализируем отображение
+            model.updateNotesView()
 
 
             //элементы формы
@@ -80,6 +87,8 @@
                     controller.addNote(title, description, color);
                     inputOne.value = '';
                     inputTwo.value = '';
+                } else {
+                    view.showMessage("Максимальная длина заголовка - 50 символов!", 'error')
                 }
 
             })
@@ -119,9 +128,23 @@
 
             //checkbox
             const filterBox = document.querySelector('.filter-box')
+            filterBox.addEventListener('change', function() {
+                controller.showFavorites()
+            })
+        },
+        showMessage(text, type = 'success') {
+            const messagesBox = document.getElementById('messages-box');
+            const message = document.createElement('div');
+            message.className = 'message';
+            message.textContent = text;
 
+            //класс в зависимости от типа
+            message.classList.add(type === 'success' ? 'message-success' : 'message-error');
+            messagesBox.appendChild(message);
 
-
+            setTimeout(() =>
+                message.remove(),
+                3000);
         },
         renderNotesCount() {
             const quantity = document.querySelector('.count')
@@ -159,32 +182,24 @@
                 const checkbox = document.querySelector('.filter-box')
                 checkbox.style.display = 'none'
             }
-
-
         },
-
-
-
-
     }
 
 
     const controller = {
         addNote(title, description, color) {
             model.addNote(title, description, color)
-
         },
         addFavorite(noteId) {
             model.addFavorite(noteId)
         },
         deleteNote(noteId) {
             model.deleteNote(noteId)
+
         },
-
-
-
-
-
+        showFavorites() {
+            model.showFavorites()
+        },
     }
 
 
