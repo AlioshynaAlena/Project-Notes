@@ -1,4 +1,3 @@
-    //словарь цветов
     const colors = {
         GREEN: 'green',
         BLUE: 'blue',
@@ -6,14 +5,6 @@
         YELLOW: 'yellow',
         PURPLE: 'pink',
     }
-
-    const MOCK_NOTES = [{
-        id: 1,
-        title: 'Работа с формами',
-        description: 'К определённым полям формы можно обратиться через form.elements по значению, указанному в атрибуте name',
-        color: colors.YELLOW,
-        isFavorite: false,
-    }, ]
 
     const model = {
         notes: [],
@@ -87,10 +78,16 @@
                     controller.addNote(title, description, color);
                     inputOne.value = '';
                     inputTwo.value = '';
-                } else {
+                }
+                if (title.length > 50) {
                     view.showMessage("Максимальная длина заголовка - 50 символов!", 'error')
                 }
-
+                if (!description) {
+                    view.showMessage("Введите описание заметки!", 'error')
+                }
+                if (!title) {
+                    view.showMessage("Введите заголовок заметки!", 'error')
+                }
             })
 
             //color note
@@ -184,7 +181,6 @@
             }
         },
     }
-
 
     const controller = {
         addNote(title, description, color) {
