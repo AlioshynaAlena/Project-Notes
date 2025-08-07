@@ -27,15 +27,17 @@
         },
 
         addFavorite(noteId) {
-            const note = this.notes.find(note => note.id === noteId)
+            const note = this.notes.find(note => {
+                return note.id === noteId
+            })
             if (note) {
                 note.isFavorite = !note.isFavorite
             }
             view.renderNotes(this.notes)
         },
         deleteNote(noteId) {
-            this.notes = this.notes.filter(note => note.id !== noteId) // вернет все элементы, которые не соответствуют условию
-            view.showMessage("Заметка удалена", 'error');
+            this.notes = this.notes.filter(note => note.id !== noteId)
+            view.showMessage("Заметка удалена", 'message-error');
             view.renderNotes(this.notes)
             view.renderNotesCount()
         },
@@ -55,7 +57,6 @@
     const view = {
         init() {
             this.renderNotes(model.notes)
-                // Инициализируем отображение
             model.updateNotesView()
 
 
@@ -80,13 +81,13 @@
                     inputTwo.value = '';
                 }
                 if (title.length > 50) {
-                    view.showMessage("Максимальная длина заголовка - 50 символов!", 'error')
+                    view.showMessage("Максимальная длина заголовка - 50 символов!", 'message-error')
                 }
                 if (!description) {
-                    view.showMessage("Введите описание заметки!", 'error')
+                    view.showMessage("Введите описание заметки!", 'message-error')
                 }
                 if (!title) {
-                    view.showMessage("Введите заголовок заметки!", 'error')
+                    view.showMessage("Введите заголовок заметки!", 'message-error')
                 }
             })
 
@@ -151,18 +152,31 @@
             // находим контейнер для заметок и рендерим заметки в него
             const notesList = document.querySelector(".notes-list")
             let notesHTML = ''
-            for (let i = 0; i < notes.length; i++) {
-                const note = notes[i]
+                //             for (let i = 0; i < notes.length; i++) {
+                //                 const note = notes[i]
 
+            //                 notesHTML += `
+            //                  <div class="note" data-id="${note.id}">
+            //        <div class="note-title ${note.color}">${note.title}
+            //            <img class="heart" src="img/${note.isFavorite ? 'heart-active' : 'heart-inactive'}.svg" alt="">
+            //            <img class="trash" src="img/trash.svg" alt="">
+            //        </div>
+            //        <div class="card_descr">${note.description}</div>
+            //    </div>`
+            //             }
+
+            notes.forEach((note) => {
                 notesHTML += `
                  <div class="note" data-id="${note.id}">
        <div class="note-title ${note.color}">${note.title}
-           <img class="heart" src="img/${note.isFavorite ? 'heart-active' : 'heart-inactive'}.svg" alt="">
+<img class="heart" src="img/${note.isFavorite ? 'heart-active' : 'heart-inactive'}.svg" alt="">
            <img class="trash" src="img/trash.svg" alt="">
        </div>
        <div class="card_descr">${note.description}</div>
    </div>`
-            }
+
+            })
+
             notesList.innerHTML = notesHTML
 
             //рендерим заметки в контейнер (если заметок нет, отображаем соответствующий текст)
